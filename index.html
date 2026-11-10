@@ -30,8 +30,8 @@ button:disabled{opacity:.6;cursor:wait}
 .sign{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 20px;margin:25px 0 8px;font-size:13px}
 .sign .item{display:flex;align-items:flex-end;gap:8px;white-space:nowrap}
 .sign .line{display:inline-block;min-width:170px;border-bottom:1px solid var(--ink);text-align:center;padding:0 8px 2px;font:700 14px Arial;color:var(--navy)}
-.sign .sigline{padding:0 8px;min-width:190px}
-.sigimg{display:block;height:52px;width:auto;margin:0 auto -3px}
+.sign .sigline{padding:0 8px;min-width:170px}
+.sigimg{display:block;height:34px;width:auto;margin:0 auto 1px;transform:rotate(-5deg);transform-origin:center bottom}
 /* loading screen shown on every page change */
 .loader{position:fixed;inset:0;z-index:9999;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;opacity:1;visibility:visible;transition:opacity .35s ease,visibility .35s ease}
 .loader:not(.on){opacity:0;visibility:hidden;pointer-events:none}
@@ -203,7 +203,7 @@ const form=document.getElementById('regForm'), statusEl=document.getElementById(
 const loaderEl=document.getElementById('loader');
 document.getElementById('loaderLogo').src=document.querySelector('.ytimg').src;
 const dateEl=document.getElementById('todayDate');
-function setToday(){dateEl.textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});}
+function setToday(){dateEl.textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});}
 setToday();
 let busy=false;
 // every page change shows the logo loading screen, then opens the page from the top
