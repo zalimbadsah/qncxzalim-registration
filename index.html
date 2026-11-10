@@ -22,12 +22,26 @@ label{display:block;font:700 13px Arial;color:var(--ink);margin:0 0 7px}
 .field{margin:0 0 15px}
 input,select{width:100%;padding:12px;border:1px solid #c9c1b5;background:#fff;font:15px Arial;color:var(--ink);border-radius:2px}
 input:focus,select:focus{outline:2px solid #d9bd8e;border-color:var(--gold)}
-button{width:100%;background:var(--navy);color:#fff;border:0;border-bottom:3px solid var(--gold);padding:14px;font:700 13px Arial;letter-spacing:1px;cursor:pointer}
+button,.btn{display:block;width:100%;background:var(--navy);color:#fff;border:0;border-bottom:3px solid var(--gold);padding:14px;font:700 13px Arial;letter-spacing:1px;cursor:pointer;text-align:center;text-decoration:none}
 button:disabled{opacity:.6;cursor:wait}
+.big{font-size:16px;padding:18px;margin:26px 0 8px}
+.link{background:none;border:0;color:var(--navy);width:auto;padding:0;margin:0 0 16px;font:700 13px Arial;letter-spacing:0;text-decoration:underline}
 .smallprint{background:var(--cream);border:1px solid #d8d0c4;padding:14px;color:var(--muted);font:12px/1.6 Arial;margin-top:22px}
 .sign{display:flex;justify-content:space-between;gap:20px;margin:25px 0 8px;font-size:13px}
 footer{text-align:center;color:var(--muted);font:italic 11px Arial;padding:0 10px 20px}
-.status{font:13px Arial;margin-top:12px;text-align:center}
+.status{font:13px Arial;margin-top:12px;text-align:center;color:#a33}
+.hero{text-align:center;padding:10px 0 4px}
+.hero h2{font-size:clamp(22px,5vw,30px);color:var(--navy);margin:0 0 10px}
+.hero p{font:14px/1.6 Arial;color:var(--muted);margin:0 0 20px}
+.tick{width:84px;height:84px;border-radius:50%;background:var(--navy);border:4px solid var(--gold);color:#d9bd8e;font:700 46px/76px Arial;margin:20px auto 22px;text-align:center}
+.success{text-align:center;padding:20px 0 10px}
+.success h2{font-size:clamp(28px,7vw,42px);color:var(--navy);margin:0 0 14px;letter-spacing:1px;line-height:1.2}
+.success p{font:15px/1.7 Arial;color:var(--muted);margin:0 0 22px}
+.cdbox{text-align:center;background:var(--navy);border:2px solid var(--gold);padding:22px 12px;margin:6px 0 24px}
+.cdlabel{display:block;color:#d9bd8e;font:700 12px Arial;letter-spacing:2px}
+.cdnum{display:block;color:#fff;font:700 clamp(54px,16vw,84px)/1.1 Georgia,serif;margin:8px 0}
+.cdbox .big{margin:0;background:var(--gold);color:var(--navy);border-bottom:3px solid #d9bd8e}
+.page{display:none}.page.active{display:block}
 @media(max-width:520px){.schedule{grid-template-columns:1fr}main{padding:18px}.wrap{margin:15px auto}}
 </style>
 </head>
@@ -35,12 +49,29 @@ footer{text-align:center;color:var(--muted);font:italic 11px Arial;padding:0 10p
 <div class="wrap"><div class="sheet">
 <header><h1>QnCxZalim Prime Battle Cup</h1><p>OFFICIAL SQUAD REGISTRATION</p></header>
 <main>
+
+<!-- PAGE 1: HOME -->
+<div class="page active" id="pageHome">
+<div class="cdbox" id="cdBox">
+<div id="cdWait"><span class="cdlabel">REGISTRATION OPENS IN</span><span class="cdnum" id="cdNum">10</span><span class="cdlabel">SECONDS</span></div>
+<button class="big" type="button" id="goRegister" style="display:none">REGISTRATION NOW</button>
+</div>
+<div class="hero">
+<h2>QnCxZalim Prime Battle Cup</h2>
+<p>Register your squad for the tournament.</p>
+</div>
 <div class="section">TOURNAMENT SCHEDULE</div>
 <div class="schedule">
 <div class="slot"><b>DAY SESSION</b><span>3 MATCHES · STARTS 1:00 PM</span></div>
 <div class="slot"><b>NIGHT SESSION</b><span>3 MATCHES · STARTS 8:00 PM</span></div>
 </div>
 <p class="note">All matches will be livestreamed with live commentary.</p>
+<div class="smallprint"><b>NOTICE</b><br>This tournament is independently organized and hosted by QnCxZalim.</div>
+</div>
+
+<!-- PAGE 2: FORM -->
+<div class="page" id="pageForm">
+<button class="link" type="button" id="backHome">&larr; Back</button>
 <div class="section">SQUAD DETAILS</div>
 <form id="regForm">
 <div class="field"><label for="team">1. Team Name</label><input id="team" name="team" required></div>
@@ -57,14 +88,39 @@ footer{text-align:center;color:var(--muted);font:italic 11px Arial;padding:0 10p
 </form>
 <div class="smallprint"><b>NOTICE</b><br>This tournament is independently organized and hosted by QnCxZalim. Matches will be conducted according to the announced schedule and tournament rules. Please provide correct team and player details during registration.</div>
 <div class="sign"><span>Date: __________________</span><span>Signature: __________________</span></div>
+</div>
+
+<!-- PAGE 3: SUCCESS -->
+<div class="page" id="pageSuccess">
+<div class="success">
+<div class="tick">&#10003;</div>
+<h2>REGISTRATION<br>SUCCESSFUL</h2>
+<p>Thank you for registering for the QnCxZalim Prime Battle Cup.<br>Your squad details have been received. See you in the match!</p>
+<button class="big" type="button" id="goHome">BACK TO HOME</button>
+</div>
+</div>
+
 </main><footer>Organized &amp; presented by QnCxZalim</footer>
 </div></div>
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylr25egJURfFoeq52TIW06-Anrdnbu-VQigOhRUFfEr5yp5euOErA3DitEoofyvRDNJQ/exec";
+const pages={home:document.getElementById('pageHome'),form:document.getElementById('pageForm'),success:document.getElementById('pageSuccess')};
 const form=document.getElementById('regForm'), statusEl=document.getElementById('status'), btn=document.getElementById('submitBtn');
+function show(name){
+ for(const k in pages){pages[k].classList.toggle('active',k===name);}
+ window.scrollTo(0,0);
+}
+let cd=10;const cdNum=document.getElementById('cdNum');
+const cdTimer=setInterval(()=>{
+ cd--;
+ if(cd>0){cdNum.textContent=cd;}
+ else{clearInterval(cdTimer);document.getElementById('cdWait').style.display='none';document.getElementById('goRegister').style.display='block';}
+},1000);
+document.getElementById('goRegister').onclick=()=>{statusEl.textContent="";show('form');};
+document.getElementById('backHome').onclick=()=>show('home');
+document.getElementById('goHome').onclick=()=>show('home');
 form.addEventListener('submit', async (e)=>{
  e.preventDefault();
- if(!SCRIPT_URL){statusEl.textContent="Form design is ready. Connect a Google Sheet to receive registrations.";return;}
  btn.disabled=true;statusEl.textContent="Submitting...";
  const f=Object.fromEntries(new FormData(form).entries());
  // Keys below must match the heading names in Row 1 of the Google Sheet
@@ -81,8 +137,9 @@ form.addEventListener('submit', async (e)=>{
  };
  try{
    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(data)});
-   statusEl.textContent="Registration submitted. Thank you!";
+   statusEl.textContent="";
    form.reset();
+   show('success');
  }catch(err){statusEl.textContent="Could not submit. Please try again later.";}
  btn.disabled=false;
 });
