@@ -60,19 +60,25 @@ footer{text-align:center;color:var(--muted);font:italic 11px Arial;padding:0 10p
 </main><footer>Organized &amp; presented by QnCxZalim</footer>
 </div></div>
 <script>
-/*
-  TO ENABLE ONLINE SUBMISSIONS:
-  1) Create a Google Sheet and an Apps Script project.
-  2) Deploy Apps Script as a Web App and paste its URL below.
-  Until then, the form is a visual demo and will not store submissions.
-*/
-const SCRIPT_URL = "";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylr25egJURfFoeq52TIW06-Anrdnbu-VQigOhRUFfEr5yp5euOErA3DitEoofyvRDNJQ/exec";
 const form=document.getElementById('regForm'), statusEl=document.getElementById('status'), btn=document.getElementById('submitBtn');
 form.addEventListener('submit', async (e)=>{
  e.preventDefault();
  if(!SCRIPT_URL){statusEl.textContent="Form design is ready. Connect a Google Sheet to receive registrations.";return;}
  btn.disabled=true;statusEl.textContent="Submitting...";
- const data=Object.fromEntries(new FormData(form).entries());
+ const f=Object.fromEntries(new FormData(form).entries());
+ // Keys below must match the heading names in Row 1 of the Google Sheet
+ const data={
+   "Team Name":f.team,
+   "Captain Name":f.captain,
+   "Captain BGMI ID":f.captainId,
+   "Captain Contact Number":f.phone,
+   "Player 2 Name & ID":f.p2,
+   "Player 3 Name & ID":f.p3,
+   "Player 4 Name & ID":f.p4,
+   "Player 5 (Optional)":f.p5,
+   "Role":f.role
+ };
  try{
    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(data)});
    statusEl.textContent="Registration submitted. Thank you!";
